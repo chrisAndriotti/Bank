@@ -1,13 +1,28 @@
-﻿namespace Bank.Entities.Entities
+﻿using System;
+
+namespace Bank.Entities.Entities
 {
     public class BankAccount : IBankAccount
     {
         private string customerName;
         private double balance;
+
+        public BankAccount()
+        {
+
+        }
+        public BankAccount(string customerName, double balance)
+        {
+            this.customerName = customerName;
+            this.balance = balance;
+        }
+
         public string CustomerName
         {
             get { return this.customerName; }
+            //set { this.customerName = value; }
         }
+
         public double Balance
         {
             get { return this.balance; }
@@ -24,19 +39,37 @@
             return this.balance *= interest;
         }
 
-        public BankAccount()
-        {
-
-        }
-        public BankAccount(string customerName, double balance)
-        {
-            customerName = customerName;
-            balance = balance;
-        }
 
         // Credito(double amount)
         // Se amount < 0 lançar exception
         // balance += amount
+        public double Credit(double amount)
+        {
+
+            if(amount < 0)
+            {
+                Exception err = new Exception("Amount não pode ser zero");
+            }
+
+            return Balance += amount;
+
+        }
+
+        public double Debit(double amount)
+        {
+            if (amount > Balance)
+            {
+                Exception err = new Exception("Saque não pode ser maior que o saldo.");
+            }
+
+            if(amount < 0)
+            {
+                Exception err = new Exception("Valor do saque não pode ser menor ou igual a zero.");
+            }
+
+            return Balance -= amount;
+            
+        }
 
 
         // Debito(double amount)
